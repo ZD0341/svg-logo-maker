@@ -14,8 +14,32 @@
 // THEN I am shown a 300x200 pixel image that matches the criteria I entered
 
 const inquirer = require('inquirer');
-const {Circle, Triangle, Square} = require("./lib/shapes")
+const { Circle, Triangle, Square } = require("./lib/shapes");
+const { text } = require('stream/consumers');
+const { default: Choices } = require('inquirer/lib/objects/choices');
 
-inquirer.promt() {
-    
+// questions for user
+inquirer.promt {
+    {
+        type: 'input',
+            name: 'text',
+                message: "text: enter up to (3) characters:",
+    }
 }
+{
+    type: 'input',
+        name: 'text-color',
+            message: "text color:",
+    }
+{
+    type: 'list',
+        name: 'shape',
+            message: "Select shape for the logo:",
+                Choices { "Circle, Triangle, Square" },
+}
+{
+    type: 'input',
+        name: 'shape color',
+            message: "enter a shape color",
+    }
+
