@@ -18,7 +18,6 @@ const { Circle, Triangle, Square } = require("./lib/shapes");
 const svgwrite = require('svgwrite');
 const fs = require('fs');
 
-// Questions for the user
 inquirer.prompt([
     {
         type: 'input',
@@ -43,20 +42,18 @@ inquirer.prompt([
     }
 ])
     .then(answers => {
-        // get access user's responses
         const text = answers.text;
         const textColor = answers.textColor;
         const shapeType = answers.shape;
         const shapeColor = answers.shapeColor;
 
-        // a new SVG drawing
         const svg = svgwrite.createSvg({ width: 300, height: 200 });
 
         let logoShape;
 
         switch (shapeType) {
             case "Circle":
-                logoShape = new Circle(50, shapeColor, text);
+                logoShape = new Circle();
                 break;
             case "Triangle":
                 logoShape = new Triangle();
@@ -69,4 +66,12 @@ inquirer.prompt([
                 process.exit(1);
         }
 
-        
+        logoShape.addToSVG(svg);
+
+        const svgContent = svg.toSvg();
+        fs.writeFileSync('logo.svg', svgContent);
+        console.log("Generated logo.svg");
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
