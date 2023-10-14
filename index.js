@@ -14,64 +14,58 @@
 // THEN I am shown a 300x200 pixel image that matches the criteria I entered
 
 const inquirer = require('inquirer');
-const { Circle, Triangle, Square } = require("./lib/shapes");
-const svgwrite = require('svgwrite');
+const generateSvg = require('./lib/svg.js');
 const fs = require('fs');
 
-inquirer.prompt([
-    {
-        type: 'input',
-        name: 'text',
-        message: "Text: Enter up to 3 characters:",
-    },
-    {
-        type: 'input',
-        name: 'textColor',
-        message: "Text color:",
-    },
-    {
-        type: 'list',
-        name: 'shape',
-        message: "Select shape for the logo:",
-        choices: ["Circle", "Triangle", "Square"],
-    },
-    {
-        type: 'input',
-        name: 'shapeColor',
-        message: "Enter a shape color:",
-    }
-])
-    .then(answers => {
-        const text = answers.text;
-        const textColor = answers.textColor;
-        const shapeType = answers.shape;
-        const shapeColor = answers.shapeColor;
+// promt the user with questions
+function promptUser() {
+    console.log('here')
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'text',
+                message: "Text: Enter up to 3 characters:",
+            },
+            {
+                type: 'input',
+                name: 'textColor',
+                message: "Text color:",
+            },
+            {
+                type: 'list',
+                name: 'shape',
+                message: "Select shape for the logo:",
+                choices: ["Circle", "Triangle", "Square"],
+            },
+            {
+                type: 'input',
+                name: 'shapeColor',
+                message: "Enter a shape color:",
+            },
+            {
+                type: 'input',
+                name: 'shapeSize',
+                message: "Enter a shape side length:",
+            }
+        ])
+        .then(answers => {
+            console.log('here 2')
+            // const text = answers.text;
+            // const textColor = answers.textColor;
+            // const shapeType = answers.shape;
+            // const shapeColor = answers.shapeColor;
 
-        const svg = svgwrite.createSvg({ width: 300, height: 200 });
-
-        let logoShape;
-
-        switch (shapeType) {
-            case "Circle":
-                logoShape = new Circle();
-                break;
-            case "Triangle":
-                logoShape = new Triangle();
-                break;
-            case "Square":
-                logoShape = new Square();
-                break;
-            default:
-                console.log("Invalid shape choice.");
-                process.exit(1);
-        }
-
-        logoShape.addToSVG(svg);
-
-        const svgContent = svg.toSvg();
-        fs.writeFileSync('logo.svg', svgContent);
-        console.log("Generated logo.svg");
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
+            fs.writeFileSync('.\\examples\\logo.svg', generateSvg(answers));
+            console.log("Generated logo.svg");
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
+// TODO: Create a function to initialize app
+function init() {
+    promptUser()
+}
+// Function call to initialize app
+init();
