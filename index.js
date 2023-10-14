@@ -15,31 +15,58 @@
 
 const inquirer = require('inquirer');
 const { Circle, Triangle, Square } = require("./lib/shapes");
-const { text } = require('stream/consumers');
-const { default: Choices } = require('inquirer/lib/objects/choices');
+const svgwrite = require('svgwrite');
+const fs = require('fs');
 
-// questions for user
-inquirer.promt {
+// Questions for the user
+inquirer.prompt([
     {
         type: 'input',
-            name: 'text',
-                message: "text: enter up to (3) characters:",
-    }
-}
-{
-    type: 'input',
-        name: 'text-color',
-            message: "text color:",
-    }
-{
-    type: 'list',
+        name: 'text',
+        message: "Text: Enter up to 3 characters:",
+    },
+    {
+        type: 'input',
+        name: 'textColor',
+        message: "Text color:",
+    },
+    {
+        type: 'list',
         name: 'shape',
-            message: "Select shape for the logo:",
-                Choices { "Circle, Triangle, Square" },
-}
-{
-    type: 'input',
-        name: 'shape color',
-            message: "enter a shape color",
+        message: "Select shape for the logo:",
+        choices: ["Circle", "Triangle", "Square"],
+    },
+    {
+        type: 'input',
+        name: 'shapeColor',
+        message: "Enter a shape color:",
     }
+])
+    .then(answers => {
+        // get access user's responses
+        const text = answers.text;
+        const textColor = answers.textColor;
+        const shapeType = answers.shape;
+        const shapeColor = answers.shapeColor;
 
+        // a new SVG drawing
+        const svg = svgwrite.createSvg({ width: 300, height: 200 });
+
+        let logoShape;
+
+        switch (shapeType) {
+            case "Circle":
+                logoShape = new Circle(50, shapeColor, text);
+                break;
+            case "Triangle":
+                logoShape = new Triangle();
+                break;
+            case "Square":
+                logoShape = new Square();
+                break;
+            default:
+                console.log("Invalid shape choice.");
+                process.exit(1);
+        }
+
+        
