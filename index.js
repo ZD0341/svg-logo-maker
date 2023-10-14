@@ -14,41 +14,40 @@
 // THEN I am shown a 300x200 pixel image that matches the criteria I entered
 
 const inquirer = require('inquirer');
-const generateSvg = require('./lib/svg.js');
 const fs = require('fs');
+const generateSvg = require('./lib/svg');
 
 // promt the user with questions
 function promptUser() {
     console.log('here')
-    inquirer
-        .prompt([
-            {
-                type: 'input',
-                name: 'text',
-                message: "Text: Enter up to 3 characters:",
-            },
-            {
-                type: 'input',
-                name: 'textColor',
-                message: "Text color:",
-            },
-            {
-                type: 'list',
-                name: 'shape',
-                message: "Select shape for the logo:",
-                choices: ["Circle", "Triangle", "Square"],
-            },
-            {
-                type: 'input',
-                name: 'shapeColor',
-                message: "Enter a shape color:",
-            },
-            {
-                type: 'input',
-                name: 'shapeSize',
-                message: "Enter a shape side length:",
-            }
-        ])
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'text',
+            message: "Text: Enter up to 3 characters:",
+        },
+        {
+            type: 'input',
+            name: 'textColor',
+            message: "Text color:",
+        },
+        {
+            type: 'list',
+            name: 'shape',
+            message: "Select shape for the logo:",
+            choices: ["Circle", "Triangle", "Square"],
+        },
+        {
+            type: 'input',
+            name: 'shapeColor',
+            message: "Enter a shape color:",
+        },
+        {
+            type: 'input',
+            name: 'shapeSize',
+            message: "Enter a shape side length:",
+        }
+    ])
         .then(answers => {
             console.log('here 2')
             // const text = answers.text;
