@@ -42,11 +42,7 @@ function promptUser() {
             name: 'shapeColor',
             message: "Enter a shape color:",
         },
-        {
-            type: 'input',
-            name: 'shapeSize',
-            message: "Enter a shape side length:",
-        }
+        
     ])
         .then(answers => {
             console.log('here 2')
